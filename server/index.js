@@ -1,7 +1,7 @@
 // const express = require('express');
 import express from "express";
-const app = express() // server creating part
-const port = 3000
+const app = express(); // server creating part
+const port = 8000;
 
 let users = [
   {
@@ -13,34 +13,101 @@ let users = [
     id: 2,
     title: "Practice Postman",
     completed: true,
-  }
+  },
 ];
 
 // get all users
-app.get("/users", (req, res)=>{
-  res.send(todos)
-})
+app.get("/users", (req, res) => {
+  res.send(users);
+});
 
 // get one particular user
-app.get("/users/:id", (req, res)=>{
-  const id =  Number(req.params.id);
+app.get("/user/:id", (req, res) => {
+  const id = Number(req.params.id);
 
-  const user = users.find((user) => user.id === id );
+  const user = users.find((user) => user.id === id);
 
-  if(!user){
+  if (!user) {
     return res.status(404).json({
-      message: "User not found"
-    })
+      message: "User not found",
+    });
   }
 
-  res.json(user)
-})
-
+  res.json(user);
+});
 
 // create user
-app.post("/users", (req, res)=>{})
+app.post("/user", (req, res) => {
+  const { title } = req.body;
 
+  if (!title) {
+    return res.json({
+      message: "Title is required",
+    });
+  }
+
+  const newUser = {
+    id: users.length + 1,
+    title: title,
+    completed: false,
+  };
+
+  users.push(newUser);
+
+  res.json({
+    message: "User created successfully",
+    user: newUser,
+  });
+});
+
+// update todo
+app.put("/user/:id", (req, res) => {
+  const id = Number(req.params.id);
+
+  const user = users.find((user) => user.id === id);
+
+  if (!user) {
+    return res.json({
+      message: "User not found",
+    });
+  }
+
+  const { title, completed } = req.body;
+
+  if (title !== undefined) {
+    user.title = title;
+  }
+
+  if (completed !== undefined) {
+    user.completed = completed;
+  }
+
+  res.json({
+    message: "User updated successfully",
+    user: user,
+  });
+});
+
+// DELETE todo
+app.delete("/user/:id", (req, res) => {
+  const id = Number(req.params.id);
+
+  const userIndex = users.findIndex((todo) => todo.id === id);
+
+  if (userIndex === -1) {
+    return res.status(404).json({
+      message: "Todo not found",
+    });
+  }
+
+  const deletedUser = users.splice(userIndex, 1);
+
+  res.json({
+    message: "User deleted successfully",
+    todo: deletedUser[0],
+  });
+});
 
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
-}) // start server
+  console.log(`Example app listening on port ${port}`);
+}); // start server

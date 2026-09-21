@@ -54,13 +54,13 @@ app.post("/user", (req, res) => {
 
   users.push(newUser);
 
-  res.json({
+  res.status(201).json({
     message: "User created successfully",
     user: newUser,
   });
 });
 
-// update todo
+// update user
 app.put("/user/:id", (req, res) => {
   const id = Number(req.params.id);
 
@@ -82,17 +82,17 @@ app.put("/user/:id", (req, res) => {
     user.completed = completed;
   }
 
-  res.json({
+  res.status(200).json({
     message: "User updated successfully",
     user: user,
   });
 });
 
-// DELETE todo
+// DELETE user
 app.delete("/user/:id", (req, res) => {
   const id = Number(req.params.id);
 
-  const userIndex = users.findIndex((todo) => todo.id === id);
+  const userIndex = users.findIndex((user) => user.id === id);
 
   if (userIndex === -1) {
     return res.status(404).json({
@@ -102,11 +102,11 @@ app.delete("/user/:id", (req, res) => {
 
   const deletedUser = users.splice(userIndex, 1);
 
-  res.json({
+  res.status(200).json({
     message: "User deleted successfully",
-    todo: deletedUser[0],
+    user: deletedUser[0],
   });
-});
+}); 
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);

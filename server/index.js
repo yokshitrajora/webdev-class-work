@@ -89,7 +89,7 @@ app.put("/user/:id", (req, res) => {
 });
 
 // DELETE user
-app.delete("/user/:id", (req, res) => {
+app.delete("/user/:id" (req, res) => {
   const id = Number(req.params.id);
 
   const userIndex = users.findIndex((user) => user.id === id);
@@ -99,7 +99,7 @@ app.delete("/user/:id", (req, res) => {
       message: "Todo not found",
     });
   }
-
+,
   const deletedUser = users.splice(userIndex, 1);
 
   res.status(200).json({

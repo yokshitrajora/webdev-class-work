@@ -18,17 +18,21 @@ let todos = [
   
   // GET single todo
   const getTodoById = (req, res) => {
-    const id = Number(req.params.id);
+try {
+      const id = Number(req.params.id);
+    
+      const todo = todos.find((todo) => todo.id === id);
+    
+      if (!todo) {
+        return res.status(404).json({
+          message: "Todo not found",
+        });
+      }
+    
+      res.json(todo);
+} catch (error) {
   
-    const todo = todos.find((todo) => todo.id === id);
-  
-    if (!todo) {
-      return res.status(404).json({
-        message: "Todo not found",
-      });
-    }
-  
-    res.json(todo);
+}
   };
   
   // POST create todo

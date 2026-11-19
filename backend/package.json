@@ -16,7 +16,8 @@
     "start": "node index.js"
   },
   "dependencies": {
+    "dotenv": "^18.0.10",
     "express": "^5.2.1",
-    "mongoose": "^9.9.4"
+    "mongoose": "^9.12.2"
   }
 }
